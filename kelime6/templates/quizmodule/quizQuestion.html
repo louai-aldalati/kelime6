@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Question</title>
+  <link rel="stylesheet" href="{% static 'css/quizmodule/quizQuestion.css' %}" />
+</head>
+<body>
+  <div class="question-container">
+    <div class="question-header">
+      <h2>Soru {{ questionNumber }} / {{ totalQuestions }}</h2>
+    </div>
+    <div class="word">{{ word.eng_word }}</div>
+    <div class="media">
+      {% if word.picture %}
+        <img src="{{ word.picture.url }}" alt="{{ word.eng_word }}" />
+      {% endif %}
+    </div>
+    {% if word.voice %}
+    <div class="audio">
+      <audio controls>
+        <source src="{{ word.voice.url }}" type="audio/mpeg">
+        Tarayıcınız ses öğesini desteklemiyor.
+      </audio>
+    </div>
+    {% endif %}
+
+    <form method="post" action="">
+      {% csrf_token %}
+      <ul class="options">
+        {% for opt in options %}
+        <li>
+          <label>
+            <input type="radio" name="answer" value="{{ opt }}" required />
+            {{ opt }}
+          </label>
+        </li>
+        {% endfor %}
+      </ul>
+      <input type="hidden" name="question_id" value="{{ word.id }}" />
+      <button type="submit" class="btn-submit">Cevapla</button>
+    </form>
+  </div>
+</body>
+</html>

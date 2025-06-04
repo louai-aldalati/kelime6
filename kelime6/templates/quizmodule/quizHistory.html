@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Geçmişi</title>
+  <link rel="stylesheet" href="{% static 'css/quizmodule/quizHistory.css' %}" />
+</head>
+<body>
+  <div class="history-container">
+    <div class="header">
+      <h2>Quiz Geçmişi</h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Tarih</th>
+          <th>Doğru (%)</th>
+          <th>Yanlış (%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in history %}
+        <tr>
+          <td>{{ item.date }}</td>
+          <td>{{ item.correct_pct }}%</td>
+          <td>{{ item.incorrect_pct }}%</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3">Kayıt bulunamadı.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="btn-container">
+      <button class="btn" onclick="location.href='/quizmodule'">Ana Sayfaya Dön</button>
+    </div>
+  </div>
+</body>
+</html>

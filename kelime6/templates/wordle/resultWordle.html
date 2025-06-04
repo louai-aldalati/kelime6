@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle Sonuç</title>
+  <link rel="stylesheet" href="{% static 'css/wordle/resultWordle.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <div class="result-card">
+        <h2>Sonuç</h2>
+        <p>Doğru Kelime: <strong>{{ correct_word }}</strong></p>
+        <p>Kullanılan Deneme Sayısı: <strong>{{ used_attempts }}</strong></p>
+        <p class="status">
+          ⚡️ Durum:
+          {% if solved %}
+            <span>Tebrikler! Kazandınız! 🎉</span>
+          {% else %}
+            <span>Denemeler bitti, kaybettiniz 💔</span>
+          {% endif %}
+        </p>
+        <a href="{% url 'startWordle' %}" class="btn">Yeniden Oyna</a>
+        <a href="{% url 'resultHistoryWordle' %}" class="btn">Oyun Geçmişi</a>
+      </div>
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+    </main>
+  </div>
+
+
+</body>
+</html>

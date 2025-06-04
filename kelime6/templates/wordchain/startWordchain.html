@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelime Zinciri Başlat</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dashboard-container {
+      width: 90%;
+      height: 90vh;
+      background: #fff;
+      border-radius: 10px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+    }
+    .main-content h2 {
+      margin-bottom: 2rem;
+      color: #333;
+    }
+    .btn {
+      padding: 0.75rem 1.5rem;
+      background-color: #2575fc;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background-color 0.3s;
+      margin-bottom: 2rem;
+    }
+    .btn:hover {
+      background-color: #1a5dc9;
+    }
+    .history-section {
+      width: 100%;
+      text-align: left;
+      margin-top: 2rem;
+    }
+    .history-section h3 {
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #2575fc;
+      padding-bottom: 0.5rem;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .history-table th,
+    .history-table td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      vertical-align: top;
+    }
+    .history-table th {
+      background: #f1f1f1;
+      color: #2575fc;
+      text-transform: capitalize;
+      font-weight: bold;
+      text-align: left;
+    }
+    .history-table img {
+      height: 60px;
+      border-radius: 4px;
+    }
+    /* Adjust word list padding to the right */
+    .history-table td ul {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Yeni Kelime Zinciri Oyunu Başlat</h2>
+      <button class="btn" onclick="location.href='{% url 'playWordchain' %}'">Oyunu Başlat</button>
+
+      <div class="history-section">
+        <h3>Geçmiş Oyunlar</h3>
+        {% if history %}
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>oyun tarihi</th>
+              <th>hikaye resmi</th>
+              <th>hikaye</th>
+              <th>kelimeler zinciri</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for game in history %}
+            <tr>
+              <td>{{ game.played_at|date:"Y-m-d H:i" }}</td>
+              <td>
+                {% if game.story_image %}
+                  <img src="{{ game.story_image.url }}" alt="Story Image">
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if game.story %}
+                  <p>{{ game.story }}</p>
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                <ul>
+                  {% for entry in game.wordchainentry_set.all|dictsort:"position" %}
+                    <li>{{ entry.position }}. {{ entry.word }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <p>Henüz oyun oynamadınız.</p>
+        {% endif %}
+      </div>
+
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

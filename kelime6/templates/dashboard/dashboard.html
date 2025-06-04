@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontrol Paneli</title>
+  <link rel="stylesheet" href="{% static 'css/dashboard/dashboard.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <div class="cards-container">
+        <div class="card due-words-card">
+          <h4>Bugün Vadesi Gelen Kelimeler</h4>
+          <p><span id="dueCount">{{ due_count }}</span> kelime</p>
+          <a href="/quizmodule/quizQuestion" class="btn">Şimdi Teste Başla</a>
+        </div>
+        <div class="card performance-card">
+          <h4>Bugünkü Performans Özeti</h4>
+          <p>
+            Doğru: <span id="correctCount">{{ correct_pct }}%</span>
+            |
+            Yanlış: <span id="incorrectCount">{{ incorrect_pct }}%</span>
+          </p>
+        </div>
+      </div>
+
+      <p class="section-title">Adımlara Göre Yapılacak Kelime Sayısı</p>
+
+      <div class="repetitions-container">
+        <div class="rep-card">
+          <h4>1. Sefer İçin</h4>
+          <p><span id="repCount1">{{ rep_counts.0 }}</span> kelime</p>
+        </div>
+        <div class="rep-card">
+          <h4>2. Sefer İçin</h4>
+          <p><span id="repCount2">{{ rep_counts.1 }}</span> kelime</p>
+        </div>
+        <div class="rep-card">
+          <h4>3. Sefer İçin</h4>
+          <p><span id="repCount3">{{ rep_counts.2 }}</span> kelime</p>
+        </div>
+        <div class="rep-card">
+          <h4>4. Sefer İçin</h4>
+          <p><span id="repCount4">{{ rep_counts.3 }}</span> kelime</p>
+        </div>
+        <div class="rep-card">
+          <h4>5. Sefer İçin</h4>
+          <p><span id="repCount5">{{ rep_counts.4 }}</span> kelime</p>
+        </div>
+        <div class="rep-card">
+          <h4>6. Sefer İçin</h4>
+          <p><span id="repCount6">{{ rep_counts.5 }}</span> kelime</p>
+        </div>
+      </div>
+
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

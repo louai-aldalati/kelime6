@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelime Detayları</title>
+  <link rel="stylesheet" href="{% static 'css/wordadder/wordDetails.css' %}" />
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="container">
+      <h3>Kelime Detayları</h3>
+
+      <div class="detail-row">
+        <span class="detail-label">İngilizce Kelime:</span>
+        <span class="detail-value">{{ word.eng_word }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Türkçe Çeviri:</span>
+        <span class="detail-value">{{ word.tur_word }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Kelime Resmi:</span>
+        {% if word.picture %}
+          <img src="{{ word.picture.url }}" alt="{{ word.eng_word }}" class="word-image" />
+        {% else %}
+          <span class="detail-value"><em>Bir Resmi Yok</em></span>
+        {% endif %}
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Ses Dosyası:</span>
+        {% if word.voice %}
+          <div class="detail-value">
+            <audio controls>
+              <source src="{{ word.voice.url }}" />
+              Tarayıcınız audio etiketini desteklemiyor.
+            </audio>
+          </div>
+        {% else %}
+          <span class="detail-value"><em>Ses dosyası yok</em></span>
+        {% endif %}
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Oluşturulma Tarihi:</span>
+        <span class="detail-value">{{ word.created_at|date:"Y-m-d H:i" }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Güncellenme Tarihi:</span>
+        <span class="detail-value">{{ word.updated_at|date:"Y-m-d H:i" }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Örnek Cümleler:</span>
+        <ul class="samples-list">
+          {% for sample in word.wordsample_set.all %}
+            <li>{{ sample.samples }}</li>
+          {% empty %}
+            <li><em>Örnek Cümleler Yok</em></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <a href="/wordadder" class="btn-back">Listeye Dön</a>
+      <a href="/words/{{ word.pk }}/edit/" class="btn-edit">Düzenle</a>
+      <form
+        action="{% url 'wordDelete' word.pk %}"
+        method="post"
+        style="display:inline;"
+        onsubmit="return confirm('Bu kelimeyi silmek istediğinizden emin misiniz?');"
+      >
+        {% csrf_token %}
+        <button type="submit" class="btn-delete">Sil</button>
+      </form>
+
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

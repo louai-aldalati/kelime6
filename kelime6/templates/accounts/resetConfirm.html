@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Şifreyi Yeniden Belirle</title>
+  <link rel="stylesheet" href="{% static 'css/accounts/resetConfirm.css' %}">
+</head>
+<body>
+  <div class="reset-container">
+    <h2>Yeni Şifre Belirle</h2>
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      {# عرض أخطاء النموذج العامة #}
+      {% if form.non_field_errors %}
+        <ul class="messages">
+          {% for err in form.non_field_errors %}
+            <li class="error">{{ err }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="form-group">
+        <label for="new_password1">Yeni Şifre</label>
+        {{ form.new_password1 }}
+        {% if form.new_password1.errors %}
+          <ul class="messages">
+            {% for err in form.new_password1.errors %}
+              <li class="error">{{ err }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="new_password2">Yeni Şifre (Tekrar)</label>
+        {{ form.new_password2 }}
+        {% if form.new_password2.errors %}
+          <ul class="messages">
+            {% for err in form.new_password2.errors %}
+              <li class="error">{{ err }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn">Şifreyi Güncelle</button>
+    </form>
+  </div>
+</body>
+</html>

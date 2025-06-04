@@ -1,0 +1,56 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/sideNavbar.css' %}">
+<aside class="sidebar">
+  
+  <div class="welcome">
+      <p>Hoş geldin, <span id="usernameDisplay"> {% if user.is_authenticated %}  {{ user.username }}
+    {% else %}  Kullanıcı
+    {% endif %}</span>!</p>
+    </div>
+    <h3>Menü</h3>
+    <ul>
+      <li>
+        <a href="/dashboard"
+           class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+          Ana Sayfa
+        </a>
+      </li>
+      <li>
+        <a href="/wordadder"
+           class="{% if request.resolver_match.url_name == 'wordList' or  request.resolver_match.url_name == 'wordAdd' or  request.resolver_match.url_name == 'wordDetails' %}active{% endif %}">
+          Kelime Ekle
+        </a>
+      </li>
+      <li>
+        <a href="/quizmodule"
+           class="{% if request.resolver_match.url_name == 'quizDashboard' or  request.resolver_match.url_name == 'quizQuestion' or  request.resolver_match.url_name == 'quizSummary' or  request.resolver_match.url_name == 'quizHistory' %}active{% endif %}">
+          Test Modülü
+        </a>
+      </li>
+      <li>
+        <a href="/wordle"
+           class="{% if request.resolver_match.url_name == 'startWordle' or  request.resolver_match.url_name == 'boardWordle' or  request.resolver_match.url_name == 'resultWordle' or  request.resolver_match.url_name == 'resultHistoryWordle' %}active{% endif %}">
+           Wordle Oyunu
+        </a>
+      </li>
+      <li>
+        <a href="/wordchain"
+           class="{% if request.resolver_match.url_name == 'startWordchain' or  request.resolver_match.url_name == 'playWordchain' or  request.resolver_match.url_name == 'resultWordchain' %}active{% endif %}">
+           Kelime Zinciri
+        </a>
+      </li>
+      <li>
+        <a href="/settings"
+           class="{% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+           Ayarlar
+        </a>
+      </li>
+      <li>
+        <a href="/reports"
+           class="{% if request.resolver_match.url_name == 'reportsList' or  request.resolver_match.url_name == 'dailyPerformance'  or  request.resolver_match.url_name == 'difficultWords' or  request.resolver_match.url_name == 'quizSessions'%}active{% endif %}">
+           Analiz ve Raporlar
+        </a>
+      </li>
+      
+    </ul>
+</aside>

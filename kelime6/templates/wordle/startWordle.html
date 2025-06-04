@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle Oyunu Başlat</title>
+  <link rel="stylesheet" href="{% static 'css/wordle/startWordle.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <form method="post" action="{% url 'startWordle' %}" class="start-card">
+        {% csrf_token %}
+        <h2>Wordle Oyunu Başlat</h2>
+        <p>Yeni bir Wordle bulmacası oynamak için aşağıdaki ayarları seçin ve butona tıklayın.</p>
+
+        {% if message %}
+          <div class="error-message">
+            {{ message }}
+          </div>
+        {% endif %}
+
+        <div class="settings">
+          <label for="wordLength">Kelime Uzunluğu:</label>
+          <select id="wordLength" name="word_length">
+            <option value="4">4 Harf</option>
+            <option value="5" selected>5 Harf</option>
+            <option value="6">6 Harf</option>
+            <option value="7">7 Harf</option>
+          </select>
+
+          <label for="maxAttempts">Maksimum Deneme Sayısı:</label>
+          <select id="maxAttempts" name="max_attempts">
+            <option value="4">4 Deneme</option>
+            <option value="5">5 Deneme</option>
+            <option value="6" selected>6 Deneme</option>
+            <option value="7">7 Deneme</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn">Yeni Puzzle Başlat</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="location.href='{% url 'resultHistoryWordle' %}'"
+        >
+          Oyun Geçmişi
+        </button>
+      </form>
+
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

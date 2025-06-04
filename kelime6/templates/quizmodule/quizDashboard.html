@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exam Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/quizmodule/quizDashboard.css' %}" />
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <div class="header">
+        <h2>27 Günlük Sorular Takvimi</h2>
+      </div>
+      <div class="due-list" id="dueList">
+        <!-- Kartlar JS ile oluşturulacak -->
+      </div>
+      <button class="start-btn" onclick="location.href='quizQuestion'">Başlat</button>
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+    </main>
+  </div>
+
+  <script>
+    const days = 27;
+    const dueList = document.getElementById('dueList');
+
+    // counts dizisi view'den geliyor
+    const counts = {{ counts|safe }};
+
+    for (let i = 0; i <= days; i++) {
+      const card = document.createElement('div');
+      card.className = 'due-card';
+
+      const title = document.createElement('h4');
+      title.textContent = i === 0 ? 'Bugün' : `${i} Gün Sonra`;
+
+      const p = document.createElement('p');
+      const span = document.createElement('span');
+      span.id = `due${i}`;
+      span.textContent = counts[i];
+      p.appendChild(span);
+      p.insertAdjacentText('beforeend', ' soru');
+
+      card.appendChild(title);
+      card.appendChild(p);
+      dueList.appendChild(card);
+    }
+  </script>
+</body>
+</html>

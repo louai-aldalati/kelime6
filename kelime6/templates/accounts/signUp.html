@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kayıt Ol</title>
+  <link rel="stylesheet" href="{% static 'css/accounts/signUp.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h2>Kayıt Ol</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="username">Kullanıcı Adı</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Kullanıcı adınızı girin"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-posta</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="E-posta adresinizi girin"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">
+          Şifre (En az 8 karakter, harf ve sayı içermeli)
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Şifrenizi girin"
+          minlength="8"
+          pattern="(?=.*[0-9])(?=.*[A-Za-z]).{8,}"
+          title="En az 8 karakter, sayı ve harf içermeli"
+          required
+        >
+      </div>
+
+      <button type="submit" class="btn">Kayıt Ol</button>
+
+      <div class="links">
+        <a href="http://127.0.0.1:8000/">
+          Zaten hesabınız var mı? Giriş Yap
+        </a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

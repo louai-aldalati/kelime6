@@ -1,0 +1,89 @@
+/* 1. Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Base */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 3. Container */
+.reset-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 4. Headings */
+.reset-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* 5. Messages */
+.messages {
+  list-style: none;
+  margin-bottom: 1rem;
+}
+.messages li {
+  padding: 0.5rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+.messages .error {
+  background: #ffe5e5;
+  color: #d8000c;
+}
+.messages .success {
+  background: #e5f9e5;
+  color: #4f8a10;
+}
+
+/* 6. Form */
+.form-group {
+  margin-bottom: 1rem;
+}
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+form input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* 7. Button */
+.btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #2575fc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #1a5dc9;
+}
+
+
+
+
+
+

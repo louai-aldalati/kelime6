@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelime Zinciri - Oyun</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dashboard-container {
+      width: 90%;
+      height: 90vh;
+      background: #fff;
+      border-radius: 10px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    /* Ana İçerik */
+    .main-content { flex: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; }
+    .chain-status { margin-bottom: 1.5rem; font-size: 1.2rem; color: #333; }
+    .entries-list { list-style: none; padding-left: 0; margin-bottom: 1.5rem; }
+    .entries-list li { background: #f9f9f9; padding: 0.75rem; border-radius: 5px; margin-bottom: 0.5rem; }
+    .candidate-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #ADD8E6; /* Açık mavi */
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+    .candidate-btn:hover {
+      background-color: #00008B; /* Koyu mavi */
+      color: #fff;
+    }
+    /* Düğmeler Konteyneri */
+    .buttons-row { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+    .buttons-row button, .buttons-row a {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #2575fc;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      text-align: center;
+      display: inline-block;
+    }
+    .buttons-row button:hover, .buttons-row a:hover { background-color: #1a5dc9; }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Kelime Zinciri - Oyun</h2>
+
+      <!-- Zincir Durumu -->
+      <div class="chain-status">
+        Mevcut Kelime: <strong id="currentWord">{{ current_word }}</strong>
+      </div>
+
+      <!-- Mesajları Göster (Hatalar) -->
+      {% if messages %}
+      <ul>
+        {% for msg in messages %}
+          <li style="color: red; margin-bottom: 1rem;">{{ msg }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <!-- Önceki Girilen Kelimeler Listesi -->
+      <ul class="entries-list" id="entriesList">
+        {% for e in entries %}
+          <li>
+             {{ forloop.counter }}.{{ e.eng }}
+            <small>({{ e.tur }})</small>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Giriş Formu -->
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="game_id" value="{{ game_id }}" />
+
+        <div class="input-group" style="flex-direction: column; gap: 0.5rem;">
+          <p>Son harf "<strong>{{ current_word|slice:"-1:" }}</strong>" ile başlayan İngilizce kelime seçin:</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            {% for w in candidates %}
+              <button
+                type="submit"
+                name="eng_word"
+                value="{{ w.eng_word }}"
+                class="candidate-btn"
+              >
+                {{ w.eng_word }} <small>({{ w.tur_word }})</small>
+              </button>
+            {% empty %}
+              <p style="color: red;">Kullanılabilir kelime yok.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </form>
+
+      <!-- Düğmeler Satırı: Sıfırla ve Hikaye -->
+      <div class="buttons-row">
+        <a href="?reset=1">Yeniden Başlat</a>
+        <a href="{% url 'resultWordchain' %}">Hikaye ve resim oluştur</a>
+      </div>
+
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

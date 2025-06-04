@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ayarlar</title>
+  <link rel="stylesheet" href="{% static 'css/settings/settings.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Ayarlar</h2>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" action="{% url 'settings' %}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_quiz_size">Test Boyutu (kelime sayısı):</label>
+          <input
+            type="number"
+            id="id_quiz_size"
+            name="quiz_size"
+            min="1"
+            max="50"
+            value="{{ settings.quiz_size }}"
+            required
+          />
+        </div>
+        <button type="submit" class="btn">Kaydet</button>
+      </form>
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+
+    </main>
+  </div>
+</body>
+</html>
