@@ -155,9 +155,16 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER    # العنوان الافتراضي لل
 
 from django.core.exceptions import ImproperlyConfigured
 # OpenAI API key
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if not OPENAI_API_KEY:
-    raise ImproperlyConfigured("Missing OPENAI_API_KEY environment variable!")
+#OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+#if not OPENAI_API_KEY:
+#    raise ImproperlyConfigured("Missing OPENAI_API_KEY environment variable!")
+
+# Gemini API key
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if not GEMINI_API_KEY:
+    raise ImproperlyConfigured("Missing GEMINI_API_KEY environment variable!")
+
+
    
 
 

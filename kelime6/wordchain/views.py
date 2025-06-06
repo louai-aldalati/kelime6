@@ -6,8 +6,10 @@ from django.core.files.base import ContentFile
 from .models import WordChainGame,WordChainEntry
 from wordadder.models import Word
 from django.contrib import messages
-from .utils.openai_api import generate_story_openai, generate_image_openai
 
+#from .utils.openai_api import generate_story_openai, generate_image_openai
+# استيراد دوال التوليد من ملف gemini_api.py
+from .utils.gemini_api import generate_story_gemini, generate_image_gemini
 
 
 # Create your views here.
@@ -93,9 +95,8 @@ def playWordchain(request):
         'game_id': game.id,  # جاهز لو احتجت في القالب
     })
 
-import logging
-logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -107,43 +108,56 @@ def resultWordchain(request):
         user=request.user
     )
 
-    # 2. تجهيز prompt
+    # 2. تجهيز prompt الخاص بالقصة
     entries = game.wordchainentry_set.order_by('position').values_list('word', flat=True)
-    prompt = f"Word Chain Game #{game.id}, toplam {len(entries)} kelime:\n"
-    for idx, w in enumerate(entries, 1):
-        prompt += f"{idx}. {w}\n"
-    prompt += "\nBu kelimelerle yaratıcı bir hikaye yaz:"
 
-    # 3. توليد القصة
+    # نصّ التعليمات للنموذج: 
+    # - استخدم الكلمات الإنجليزية كما هي، وبقية النص بالتركي.
+    # - لا تقدم أي جملة تمهيدية أو رابط للعبة، ابدأ بسرد الحكاية مباشرةً.
+    # - حافظ على القصة قصيرة وموجزة خاصةً إذا كان عدد الكلمات الإنجليزية قليل.
+    prompt_text = (
+        f"Aşağıdaki İngilizce kelimeleri hikâyede aynen kullanın ve geri kalan metni tamamen Türkçe yazın. "
+        f"Hiçbir önsöz eklemeyin; doğrudan hikâyeyi başlatın. "
+        f"Eğer İngilizce kelime sayısı azsa (örn. 3), hikâyeyi kısa tutun:\n\n"
+    )
+    for idx, w in enumerate(entries, 1):
+        prompt_text += f"{idx}. {w}\n"
+
+    # 3. توليد القصة باستخدام الدالة من gemini_api.py
     try:
-        story_text = generate_story_openai(prompt)
+        story_text = generate_story_gemini(prompt_text)
     except Exception as e:
-        # سجّل الخطأ في لوج Django
-        logger.error("خطأ أثناء توليد القصة من OpenAI: %s", e, exc_info=True)
-        # أرسل للواجهة نص الخطأ مؤقّتاً لتعرف السبب
-        messages.error(request, f"Hata (OpenAI): {e}")
+        logger.error("خطأ أثناء توليد القصة من Gemini: %s", e, exc_info=True)
+        messages.error(request, f"Hata (Gemini Text): {e}")
         return redirect('playWordchain')
 
     game.story = story_text
+    '''
+    
+    # 4. إعداد prompt خاص بالصورة بالاعتماد على القصة المولّدة
+    prompt_image = (
+        "Bir dijital sanat eseri oluştur: Aşağıdaki hikayeyi anime tarzında, "
+        "canlı renklerle ve ayrıntılı bir sahne olarak betimle.\n\n"
+        f"Hikaye:\n{story_text}"
+    )
 
-    # 4. توليد الصورة
+    # 5. توليد الصورة باستخدام الدالة المحدثة
     try:
-        img_bytes = generate_image_openai(prompt)
+        img_bytes = generate_image_gemini(prompt_image)
     except Exception as e:
-        messages.error(request, "Resim oluşturulamadı; Daha sonra tekrar deneyin.")
+        logger.error("خطأ أثناء توليد الصورة من Gemini: %s", e, exc_info=True)
+        messages.error(request, f"Resim oluşturulamadı; Hata: {e}")
         return redirect('playWordchain')
 
     filename = f"story_{game.id}_{uuid.uuid4().hex[:8]}.png"
     game.story_image.save(filename, ContentFile(img_bytes), save=False)
-
+    '''
     game.save()
 
-    # 5. إعادة توجيه إلى القالب
-    # مسح الجلسة ليبدأ المستخدم لعبة جديدة إذا رغب
+    # 6. مسح الجلسة والعودة إلى قالب النتائج
     del request.session['current_game_id']
-
     return render(request, 'wordchain/resultWordchain.html', {
         'story_text': game.story,
-        'story_image_url': game.story_image.url,
+        #'story_image_url': game.story_image.url,
         'entries': entries,
-    })
+    }) 
