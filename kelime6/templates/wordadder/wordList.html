@@ -11,7 +11,7 @@
   <div class="dashboard-container">
     {# تضمين الشريط الجانبي #}
     {% include 'sideNavbar.html' %}
-    <main class="container">
+    <main class="main-content">
       <div class="header">
         <h2>Kelime Listesi</h2>
         <div>
@@ -52,8 +52,7 @@
                 </ul>
               </td>
               <td class="actions">
-                <a href="/wordadder/wordDetails/{{ item.pk }}" aria-label="Detaylar">Detaylar</a>
-                <a href="/words/{{ item.pk }}/edit/" aria-label="Düzenle">Düzenle</a>
+                <a class="btn-details"  href="/wordadder/wordDetails/{{ item.pk }}" aria-label="Detaylar">Detaylar</a>
                 <form action="{% url 'wordDelete' item.pk %}" method="post" style="display:inline;">
                   {% csrf_token %}
                   <button

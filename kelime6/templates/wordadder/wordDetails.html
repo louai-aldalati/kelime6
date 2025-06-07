@@ -9,80 +9,103 @@
 </head>
 <body>
   <div class="dashboard-container">
-    {# تضمين الشريط الجانبي #}
     {% include 'sideNavbar.html' %}
-    <main class="container">
+    <main class="main-content">
       <h3>Kelime Detayları</h3>
 
-      <div class="detail-row">
-        <span class="detail-label">İngilizce Kelime:</span>
-        <span class="detail-value">{{ word.eng_word }}</span>
-      </div>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-      <div class="detail-row">
-        <span class="detail-label">Türkçe Çeviri:</span>
-        <span class="detail-value">{{ word.tur_word }}</span>
-      </div>
+        <!-- حقول الكلمة -->
+        <div class="detail-row">
+          <label for="eng_word">İngilizce Kelime:</label>
+          <input type="text" id="eng_word" name="eng_word" value="{{ word.eng_word }}" />
+        </div>
 
-      <div class="detail-row">
-        <span class="detail-label">Kelime Resmi:</span>
-        {% if word.picture %}
-          <img src="{{ word.picture.url }}" alt="{{ word.eng_word }}" class="word-image" />
-        {% else %}
-          <span class="detail-value"><em>Bir Resmi Yok</em></span>
-        {% endif %}
-      </div>
+        <div class="detail-row">
+          <label for="tur_word">Türkçe Çeviri:</label>
+          <input type="text" id="tur_word" name="tur_word" value="{{ word.tur_word }}" />
+        </div>
 
-      <div class="detail-row">
-        <span class="detail-label">Ses Dosyası:</span>
-        {% if word.voice %}
-          <div class="detail-value">
+        <!-- الصورة -->
+        <div class="detail-row">
+          <span class="detail-label">Mevcut Resim:</span>
+          {% if word.picture %}
+            <img src="{{ word.picture.url }}" alt="{{ word.eng_word }}" class="word-image" />
+          {% else %}
+            <em>Resim yok</em>
+          {% endif %}
+        </div>
+        <div class="detail-row">
+          <label for="picture">Yeni Resim Yükle:</label>
+          <input type="file" id="picture" name="picture" accept="image/*" />
+        </div>
+
+        <!-- الصوت -->
+        <div class="detail-row">
+          <span class="detail-label">Mevcut Ses Dosyası:</span>
+          {% if word.voice %}
             <audio controls>
               <source src="{{ word.voice.url }}" />
               Tarayıcınız audio etiketini desteklemiyor.
             </audio>
+          {% else %}
+            <em>Ses dosyası yok</em>
+          {% endif %}
+        </div>
+        <div class="detail-row">
+          <label for="voice">Yeni Ses Dosyası Yükle:</label>
+          <input type="file" id="voice" name="voice" accept="audio/*" />
+        </div>
+
+        <!-- التواريخ -->
+        <div class="detail-row">
+          <span class="detail-label">Oluşturulma Tarihi:</span>
+          <span class="detail-value">{{ word.created_at|date:"Y-m-d H:i" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Güncellenme Tarihi:</span>
+          <span class="detail-value">{{ word.updated_at|date:"Y-m-d H:i" }}</span>
+        </div>
+
+        <!-- جُمَل العَيّنات القابلة للتعديل -->
+        <div class="detail-row">
+          <span class="detail-label">Örnek Cümleler:</span>
+          <div id="samples-container">
+            {% for sample in word.wordsample_set.all %}
+              <div class="sample-row">
+                <input type="text" name="samples" value="{{ sample.samples }}" placeholder="Örnek cümle..." />
+              </div>
+            {% endfor %}
+            <div class="sample-row">
+              <input type="text" name="samples" value="" placeholder="Yeni örnek cümle ekleyin..." />
+            </div>
           </div>
-        {% else %}
-          <span class="detail-value"><em>Ses dosyası yok</em></span>
-        {% endif %}
-      </div>
+          <button type="button" id="add-sample">Yeni Cümle Ekle</button>
+        </div>
 
-      <div class="detail-row">
-        <span class="detail-label">Oluşturulma Tarihi:</span>
-        <span class="detail-value">{{ word.created_at|date:"Y-m-d H:i" }}</span>
-      </div>
-
-      <div class="detail-row">
-        <span class="detail-label">Güncellenme Tarihi:</span>
-        <span class="detail-value">{{ word.updated_at|date:"Y-m-d H:i" }}</span>
-      </div>
-
-      <div class="detail-row">
-        <span class="detail-label">Örnek Cümleler:</span>
-        <ul class="samples-list">
-          {% for sample in word.wordsample_set.all %}
-            <li>{{ sample.samples }}</li>
-          {% empty %}
-            <li><em>Örnek Cümleler Yok</em></li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <a href="/wordadder" class="btn-back">Listeye Dön</a>
-      <a href="/words/{{ word.pk }}/edit/" class="btn-edit">Düzenle</a>
-      <form
-        action="{% url 'wordDelete' word.pk %}"
-        method="post"
-        style="display:inline;"
-        onsubmit="return confirm('Bu kelimeyi silmek istediğinizden emin misiniz?');"
-      >
+        <div class="form-actions">
+      <button type="submit" class="btn-save">Değişiklikleri Kaydet</button>
+       <a href="{% url 'wordList' %}" class="btn-back">Listeye Dön</a>
+      <form action="{% url 'wordDelete' word.pk %}" method="post" onsubmit="return confirm('Bu kelimeyi silmek istediğinize emin misiniz?');" class="delete-form">
         {% csrf_token %}
-        <button type="submit" class="btn-delete">Sil</button>
-      </form>
+         <button type="submit" class="btn-delete">Sil</button>
+         </form>
+           </div>
 
-      {# تضمين التذييل #}
       {% include 'footer.html' %}
     </main>
   </div>
+
+  <!-- جافاسكربت لإضافة حقول جديدة ديناميكياً -->
+  <script>
+    document.getElementById('add-sample').addEventListener('click', function(){
+      var container = document.getElementById('samples-container');
+      var div = document.createElement('div');
+      div.className = 'sample-row';
+      div.innerHTML = '<input type="text" name="samples" placeholder=\"Yeni örnek cümle ekleyin...\" />';
+      container.appendChild(div);
+    });
+  </script>
 </body>
 </html>

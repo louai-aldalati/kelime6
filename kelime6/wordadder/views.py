@@ -63,10 +63,33 @@ def wordAdd(request):
 
 @login_required
 def wordDetails(request, pk):
-    # 1. جلب الكائن أو رفع 404 إذا لم يوجد
     word = get_object_or_404(Word, pk=pk, user=request.user)
-    # 2. تمرير الكائن إلى القالب
-    return render(request, 'wordadder/wordDetails.html',{'word': word,})
+
+    if request.method == 'POST':
+        # --- تحديث حقول الكلمة ---
+        word.eng_word = request.POST.get('eng_word', word.eng_word)
+        word.tur_word = request.POST.get('tur_word', word.tur_word)
+        if 'picture' in request.FILES:
+            word.picture = request.FILES['picture']
+        if 'voice' in request.FILES:
+            word.voice = request.FILES['voice']
+        word.save()
+
+        # --- معالجة جمل العيِّنات ---
+        # نجمع كل الحقول المسماة "samples" (ستأتي كقائمة)
+        samples = request.POST.getlist('samples')
+        # نحذف القديم
+        word.wordsample_set.all().delete()
+        # وننشئ جديد فقط للنصوص غير الفارغة
+        for text in samples:
+            if text.strip():
+                WordSample.objects.create(word=word, samples=text.strip())
+
+        return redirect('wordList')
+
+    return render(request, 'wordadder/wordDetails.html', {
+        'word': word,
+    })
 
 
 @login_required

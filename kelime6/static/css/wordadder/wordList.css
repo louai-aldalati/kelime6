@@ -121,3 +121,26 @@ tr:hover {
   cursor: not-allowed;
   opacity: 0.7;
 }
+
+/* زر عرض التفاصيل */
+.btn-details {
+  display: inline-block;
+  color: #2575fc;              /* اللون الأزرق الرئيسي */
+  background: transparent;     /* خلفية شفافة */
+  border: 1px solid #2575fc;   /* حد أزرق خفيف */
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: 
+    color 0.2s ease-in-out, 
+    background-color 0.2s ease-in-out,
+    transform 0.1s ease-in-out;
+}
+
+.btn-details:hover {
+  background-color: #2575fc;   /* خلفية زرقاء عند المرور */
+  color: #fff;                 /* نص أبيض */
+  transform: scale(1.05);
+}
