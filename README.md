@@ -29,6 +29,3 @@
   <strong><span style="color: #2575fc;">Bu sayede hem motivasyonunuz yüksek kalır hem de kelimeler uzun süre hafızanızda saklanır. Kolay öğren, keyifle tekrar et!</span></strong>
 </p>
 
-<!-- Yan menü ve altbilgi dahil etmek için: -->
-{% include 'sideNavbar.html' %}
-{% include 'footer.html' %}
