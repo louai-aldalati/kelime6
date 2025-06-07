@@ -7,7 +7,6 @@ from .models import WordChainGame,WordChainEntry
 from wordadder.models import Word
 from django.contrib import messages
 
-#from .utils.openai_api import generate_story_openai, generate_image_openai
 # استيراد دوال التوليد من ملف gemini_api.py
 from .utils.gemini_api import generate_story_gemini, generate_image_gemini
 
