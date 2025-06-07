@@ -87,6 +87,7 @@
         <div class="form-actions">
       <button type="submit" class="btn-save">Değişiklikleri Kaydet</button>
        <a href="{% url 'wordList' %}" class="btn-back">Listeye Dön</a>
+       </form>
       <form action="{% url 'wordDelete' word.pk %}" method="post" onsubmit="return confirm('Bu kelimeyi silmek istediğinize emin misiniz?');" class="delete-form">
         {% csrf_token %}
          <button type="submit" class="btn-delete">Sil</button>

@@ -12,6 +12,7 @@ from django.contrib import messages
 from .utils.gemini_api import generate_story_gemini, generate_image_gemini
 
 
+
 # Create your views here.
 
 @login_required
@@ -132,8 +133,8 @@ def resultWordchain(request):
         return redirect('playWordchain')
 
     game.story = story_text
-    '''
     
+    '''
     # 4. إعداد prompt خاص بالصورة بالاعتماد على القصة المولّدة
     prompt_image = (
         "Bir dijital sanat eseri oluştur: Aşağıdaki hikayeyi anime tarzında, "
@@ -152,6 +153,7 @@ def resultWordchain(request):
     filename = f"story_{game.id}_{uuid.uuid4().hex[:8]}.png"
     game.story_image.save(filename, ContentFile(img_bytes), save=False)
     '''
+    
     game.save()
 
     # 6. مسح الجلسة والعودة إلى قالب النتائج

@@ -165,6 +165,8 @@ if not GEMINI_API_KEY:
     raise ImproperlyConfigured("Missing GEMINI_API_KEY environment variable!")
 
 
+
+
    
 
 
