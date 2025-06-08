@@ -1,0 +1,131 @@
+/* ----------------------------------------
+   Reset & Box Sizing
+---------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ----------------------------------------
+   Body & Layout
+---------------------------------------- */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-container {
+  width: 90%;
+  height: 90vh;
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ----------------------------------------
+   Main Content
+---------------------------------------- */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
+/* Chain Status */
+.chain-status {
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Messages */
+.messages-list {
+  margin-bottom: 1.5rem;
+  list-style: none;
+}
+
+.message-item {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+/* Entries List */
+.entries-list {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.entries-list li {
+  background: #f9f9f9;
+  padding: 0.75rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+/* Candidate Buttons */
+.candidates-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.candidate-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ADD8E6; /* Açık mavi */
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.candidate-btn:hover {
+  background-color: #00008B; /* Koyu mavi */
+  color: #fff;
+}
+
+.no-candidates {
+  color: red;
+}
+
+/* Buttons Row */
+.buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.buttons-row button,
+.buttons-row a {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #2575fc;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+}
+
+.buttons-row button:hover,
+.buttons-row a:hover {
+  background-color: #1a5dc9;
+}
