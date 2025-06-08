@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -150,19 +151,7 @@ EMAIL_HOST_PASSWORD = 'sdly bdbj qcrh vjap'     # كلمة مرور التطبي
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER    # العنوان الافتراضي للمُرسل
 
 
-
-
-
-from django.core.exceptions import ImproperlyConfigured
-
 # Gemini API key
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     raise ImproperlyConfigured("Missing GEMINI_API_KEY environment variable!")
-
-
-
-
-   
-
-
