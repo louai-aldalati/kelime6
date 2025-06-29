@@ -146,8 +146,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'           # مضيف SMTP (مثلاً Gmail)
 EMAIL_PORT = 587                        # المنفذ (TLS)
 EMAIL_USE_TLS = True                    # استخدام TLS
-EMAIL_HOST_USER = 'louaiyos@gmail.com'     # بريد الإرسال
-EMAIL_HOST_PASSWORD = 'sdly bdbj qcrh vjap'     # كلمة مرور التطبيق (App Password)
+EMAIL_HOST_USER = '25kelime6@gmail.com'     # بريد الإرسال
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')     # كلمة مرور التطبيق (App Password)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER    # العنوان الافتراضي للمُرسل
 
 
