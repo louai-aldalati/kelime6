@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontrol Paneli - Raporlar</title>
+  <link rel="stylesheet" href="{% static 'css/reports/reportsList.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Rapor Listesi</h2>
+      <div class="cards-container">
+        <!-- Günlük Performans Raporu -->
+        <div class="card">
+          <h4>Günlük Performans Raporu</h4>
+          <p>Kullanıcının günlük doğru ve yanlış cevap sayılarını gösterir.</p>
+          <a href="/reports/dailyPerformance" class="btn">Raporu Görüntüle</a>
+        </div>
+        <!-- Zor Kelimeler Raporu -->
+        <div class="card">
+          <h4>Zor Kelimeler Raporu</h4>
+          <p>Başarısız olunan kelimeleri listeler ve çalışma önerileri sunar.</p>
+          <a href="/reports/difficultWords" class="btn">Raporu Görüntüle</a>
+        </div>
+        <!-- Quiz Oturumları Raporu -->
+        <div class="card">
+          <h4>Quiz Oturumları Raporu</h4>
+          <p>Kullanıcının quiz oturumlarındaki başarı oranını ve geçmiş oturumları gösterir.</p>
+          <a href="/reports/quizSessions" class="btn">Raporu Görüntüle</a>
+        </div>
+      </div>
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

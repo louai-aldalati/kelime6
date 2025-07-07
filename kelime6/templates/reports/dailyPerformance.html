@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Günlük Performans Raporu</title>
+  <link rel="stylesheet" href="{% static 'css/reports/dailyPerformance.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Günlük Performans Raporu</h2>
+      <div class="report-filters">
+        <label>
+          Başlangıç Tarihi:
+          <input type="date" id="startDate" value="{{ start_date }}">
+        </label>
+        <label>
+          Bitiş Tarihi:
+          <input type="date" id="endDate" value="{{ end_date }}">
+        </label>
+        <button class="btn" id="filterBtn">Filtrele</button>
+        <button class="btn" id="printBtn">Yazdır</button>
+      </div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Tarih</th>
+            <th>Doğru</th>
+            <th>Yanlış</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Veriler buraya dinamik olarak yüklenecek -->
+        </tbody>
+      </table>
+      {% include 'footer.html' %}
+    </main>
+  </div>
+
+  <script>
+    function loadData() {
+      const start = document.getElementById('startDate').value;
+      const end   = document.getElementById('endDate').value;
+      const url = `{% url 'dailyPerformance' %}?start=${start}&end=${end}`;
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => populateTable(data))
+        .catch(err => console.error(err));
+    }
+
+    document.getElementById('filterBtn').addEventListener('click', loadData);
+    document.addEventListener('DOMContentLoaded', loadData);
+
+    function populateTable(data) {
+      const tbody = document.querySelector('.report-table tbody');
+      tbody.innerHTML = '';
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3">Kayıt bulunamadı.</td></tr>';
+        return;
+      }
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.date}</td>
+          <td>${row.correct}</td>
+          <td>${row.incorrect}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('printBtn').addEventListener('click', () => {
+        window.print();
+      });
+    }
+  </script>
+</body>
+</html>

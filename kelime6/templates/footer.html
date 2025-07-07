@@ -1,0 +1,11 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+<div class="footer-links">
+    <a href="https://www.linkedin.com/in/louai-aldalati-293063299/"  target="_blank" rel="noopener">Geliştirici Sayfası</a>
+    <a href="/readme">Yardım / README</a>
+    <form method="post" action="{% url 'signout' %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="signout-button">Çıkış Yap</button>
+    </form>
+  </div>
+  

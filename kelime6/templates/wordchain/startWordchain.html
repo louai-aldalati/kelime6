@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelime Zinciri Başlat</title>
+  <!-- ربط ملف CSS المنفصل -->
+  <link rel="stylesheet" href="{% static 'css/wordchain/startWordchain.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Yeni Kelime Zinciri Oyunu Başlat</h2>
+      <button class="btn" onclick="location.href='{% url 'playWordchain' %}'">Oyunu Başlat</button>
+
+      <div class="history-section">
+        <h3>Geçmiş Oyunlar</h3>
+        {% if history %}
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>oyun tarihi</th>
+              <th>hikaye resmi</th>
+              <th>hikaye</th>
+              <th>kelimeler zinciri</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for game in history %}
+            <tr>
+              <td>{{ game.played_at|date:"Y-m-d H:i" }}</td>
+              <td>
+                {% if game.story_image %}
+                  <img src="{{ game.story_image.url }}" alt="Story Image">
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if game.story %}
+                  <p>{{ game.story }}</p>
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                <ul>
+                  {% for entry in game.wordchainentry_set.all|dictsort:"position" %}
+                    <li>{{ entry.position }}. {{ entry.word }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+          <p>Henüz oyun oynamadınız.</p>
+        {% endif %}
+      </div>
+
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

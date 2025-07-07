@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelime Zinciri - Sonuç</title>
+  <!-- ربط ملف CSS خارجي -->
+  <link rel="stylesheet" href="{% static 'css/wordchain/resultWordchain.css' %}" />
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <div class="result-title">Oyun Sonuçları</div>
+      <div class="story-section">
+        <h3>Oluşturulan Hikaye:</h3>
+        <p id="storyText">{{ story_text }}</p>
+        <img id="storyImage" src="{{ story_image_url }}" alt="Story Image" />
+      </div>
+      <div class="entries-section">
+        <h3>Zincirdeki Kelimeler:</h3>
+        <ul class="entries-list" id="entriesList">
+          {% for w in entries %}
+            <li>{{ forloop.counter }}. {{ w }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="footer-links">
+        <button onclick="location.href='/wordchain'">Ana Sayfaya Dön</button>
+        <button onclick="location.href='/wordchain/playWordchain'">Tekrar Oyna</button>
+      </div>
+      {% include 'footer.html' %}
+    </main>
+  </div>
+  <script>
+    // TODO: Dinamik veri yükleme: storyText, storyImage.src, entriesList
+  </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+/* 1. Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Base */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 3. Summary Container */
+.summary-container {
+  background: #fff;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 800px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* 4. Header */
+.header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.header h2 {
+  color: #333;
+  font-size: 1.8rem;
+}
+
+/* 5. Stats Cards */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.stat-card h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+.stat-card p {
+  font-size: 1.5rem;
+  color: #2575fc;
+}
+
+/* 6. Remaining List */
+.remaining {
+  margin-bottom: 1.5rem;
+}
+.remaining h4 {
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+.remaining ul {
+  list-style: none;
+  padding: 0;
+}
+.remaining ul li {
+  background: #fff;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* 7. Buttons */
+.btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #2575fc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #1a5dc9;
+}
+
+
+
+
+
+

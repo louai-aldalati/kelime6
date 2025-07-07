@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelime Detayları</title>
+  <link rel="stylesheet" href="{% static 'css/wordadder/wordDetails.css' %}" />
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h3>Kelime Detayları</h3>
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- حقول الكلمة -->
+        <div class="detail-row">
+          <label for="eng_word">İngilizce Kelime:</label>
+          <input type="text" id="eng_word" name="eng_word" value="{{ word.eng_word }}" />
+        </div>
+
+        <div class="detail-row">
+          <label for="tur_word">Türkçe Çeviri:</label>
+          <input type="text" id="tur_word" name="tur_word" value="{{ word.tur_word }}" />
+        </div>
+
+        <!-- الصورة -->
+        <div class="detail-row">
+          <span class="detail-label">Mevcut Resim:</span>
+          {% if word.picture %}
+            <img src="{{ word.picture.url }}" alt="{{ word.eng_word }}" class="word-image" />
+          {% else %}
+            <em>Resim yok</em>
+          {% endif %}
+        </div>
+        <div class="detail-row">
+          <label for="picture">Yeni Resim Yükle:</label>
+          <input type="file" id="picture" name="picture" accept="image/*" />
+        </div>
+
+        <!-- الصوت -->
+        <div class="detail-row">
+          <span class="detail-label">Mevcut Ses Dosyası:</span>
+          {% if word.voice %}
+            <audio controls>
+              <source src="{{ word.voice.url }}" />
+              Tarayıcınız audio etiketini desteklemiyor.
+            </audio>
+          {% else %}
+            <em>Ses dosyası yok</em>
+          {% endif %}
+        </div>
+        <div class="detail-row">
+          <label for="voice">Yeni Ses Dosyası Yükle:</label>
+          <input type="file" id="voice" name="voice" accept="audio/*" />
+        </div>
+
+        <!-- التواريخ -->
+        <div class="detail-row">
+          <span class="detail-label">Oluşturulma Tarihi:</span>
+          <span class="detail-value">{{ word.created_at|date:"Y-m-d H:i" }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Güncellenme Tarihi:</span>
+          <span class="detail-value">{{ word.updated_at|date:"Y-m-d H:i" }}</span>
+        </div>
+
+        <!-- جُمَل العَيّنات القابلة للتعديل -->
+        <div class="detail-row">
+          <span class="detail-label">Örnek Cümleler:</span>
+          <div id="samples-container">
+            {% for sample in word.wordsample_set.all %}
+              <div class="sample-row">
+                <input type="text" name="samples" value="{{ sample.samples }}" placeholder="Örnek cümle..." />
+              </div>
+            {% endfor %}
+            <div class="sample-row">
+              <input type="text" name="samples" value="" placeholder="Yeni örnek cümle ekleyin..." />
+            </div>
+          </div>
+          <button type="button" id="add-sample">Yeni Cümle Ekle</button>
+        </div>
+
+        <div class="form-actions">
+      <button type="submit" class="btn-save">Değişiklikleri Kaydet</button>
+       <a href="{% url 'wordList' %}" class="btn-back">Listeye Dön</a>
+       </form>
+      <form action="{% url 'wordDelete' word.pk %}" method="post" onsubmit="return confirm('Bu kelimeyi silmek istediğinize emin misiniz?');" class="delete-form">
+        {% csrf_token %}
+         <button type="submit" class="btn-delete">Sil</button>
+         </form>
+           </div>
+
+      {% include 'footer.html' %}
+    </main>
+  </div>
+
+  <!-- جافاسكربت لإضافة حقول جديدة ديناميكياً -->
+  <script>
+    document.getElementById('add-sample').addEventListener('click', function(){
+      var container = document.getElementById('samples-container');
+      var div = document.createElement('div');
+      div.className = 'sample-row';
+      div.innerHTML = '<input type="text" name="samples" placeholder=\"Yeni örnek cümle ekleyin...\" />';
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

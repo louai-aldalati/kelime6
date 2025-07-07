@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Summary</title>
+  <link rel="stylesheet" href="{% static 'css/quizmodule/quizSummary.css' %}" />
+</head>
+<body>
+  <div class="summary-container">
+    <div class="header">
+      <h2>Test Özeti</h2>
+    </div>
+    <div class="stats">
+      <div class="stat-card">
+        <h3>Doğru</h3>
+        <p><span id="correctPct">{{ correct_pct }}%</span></p>
+      </div>
+      <div class="stat-card">
+        <h3>Yanlış</h3>
+        <p><span id="incorrectPct">{{ incorrect_pct }}%</span></p>
+      </div>
+    </div>
+    <div class="remaining">
+      <h4>Doğru Yapılan Kelimelerin Kalan Tekrar Sayısı ({{ items|length }})</h4>
+      <ul id="remainingList">
+        {% for item in items %}
+        <li>
+          <span class="word">{{ item.word }}</span>
+          <span class="count">
+            {% if item.correct %}
+              Doğru
+            {% else %}
+              Yanlış
+            {% endif %}
+          </span>
+        </li>
+        {% empty %}
+        <li>Bugün test yapılmadı veya gösterilecek sonuç yok.</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="btn-container">
+      <button class="btn" onclick="location.href='/quizmodule'">Ana Sayfaya Dön</button>
+      <button class="btn" onclick="location.href='/quizmodule/quizHistory'">Quiz Geçmişi</button>
+    </div>
+  </div>
+</body>
+</html>

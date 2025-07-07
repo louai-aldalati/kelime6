@@ -1,0 +1,55 @@
+/* 1. Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Base */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 3. Container */
+.done-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* 4. Headings & Text */
+.done-container h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.done-container p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+/* 5. Button */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #2575fc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #1a5dc9;
+}

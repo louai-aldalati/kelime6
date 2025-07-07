@@ -1,0 +1,19 @@
+[MASTER]
+ignore =
+    .git,
+    venv,
+    migrations,
+    __pycache__,
+    tests
+
+[MESSAGES CONTROL]
+# عطل هذه الرسائل التي تضغطك بدون داعٍ
+disable =
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    invalid-name,           # لو تريد الإبقاء على signIn, quizDashboard…
+    too-many-arguments,     # لو تسبّب لك R0913 في دوالك المعقدة
+    too-many-locals,        # R0914 (مثلاً في quizQuestion)
+    too-many-statements,    # R0915
+    duplicate-code          # R0801 في ملفات الهجرات المتشابهة

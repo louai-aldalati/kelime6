@@ -1,0 +1,82 @@
+# استثناء مجلد البيئة الافتراضية
+env/
+venv/
+.venv/
+
+# استثناء ملفات البايت كود والمترجمة
+__pycache__/
+*.py[cod]
+*$py.class
+*.mo
+*.pot
+
+# قواعد البيانات
+*.sqlite3
+*.db
+
+# الملفات السرية
+.env
+local_settings.py
+
+# إعدادات المحرر
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+
+# السجلات والملفات المؤقتة
+*.log
+*.bak
+*.tmp
+*.swp
+*~
+
+# إدارة الحزم
+Pipfile.lock
+poetry.lock
+
+# ملفات static وmedia
+staticfiles/
+media/
+/static/
+
+# مهاجرات Django المؤقتة
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# npm/yarn
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ===== إضافات مقترحة =====
+
+# أ) تقارير التغطية والاختبارات
+.coverage
+htmlcov/
+.pytest_cache/
+
+# ب) مخابئ الأنماط الثابتة وأدوات الفحص
+.mypy_cache/
+.cache/
+
+# ج) إعدادات SonarQube (إن استخدمتها)
+.scannerwork/
+sonar-project.properties
+
+# د) حزم البناء (مثلاً إذا كان لديك واجهة React/Vue جانبية)
+build/
+dist/
+*.egg-info/
+
+# هـ) مفاتيح الخدمة المؤقتة أو ملفات مفاتيح JSON
+*.key
+*.pem
+
+# استثناء مجلّدات الوسائط في kelime6
+/kelime6/pictures/
+/kelime6/voices/

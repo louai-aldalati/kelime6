@@ -1,0 +1,115 @@
+/* Reset and Box Sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body and Background */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  width: 90%;
+  height: 90vh;
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Main Content Section */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+}
+
+.main-content h2 {
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #2575fc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s;
+  margin-bottom: 2rem;
+}
+
+.btn:hover {
+  background-color: #1a5dc9;
+}
+
+/* History Section */
+.history-section {
+  width: 100%;
+  text-align: left;
+  margin-top: 2rem;
+}
+
+.history-section h3 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #2575fc;
+  padding-bottom: 0.5rem;
+}
+
+/* History Table */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.history-table th,
+.history-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  vertical-align: top;
+}
+
+.history-table th {
+  background: #f1f1f1;
+  color: #2575fc;
+  text-transform: capitalize;
+  font-weight: bold;
+  text-align: left;
+}
+
+.history-table img {
+  height: 60px;
+  border-radius: 4px;
+}
+
+/* Word List Styling */
+.history-table td ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.history-table td ul li {
+  white-space: nowrap;
+  display: block;
+}

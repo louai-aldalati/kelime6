@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wordle Oyunu</title>
+  <link rel="stylesheet" href="{% static 'css/wordle/boardWordle.css' %}">
+  <style>
+    /* this style must be here becuase of the django language*/
+    .grid {
+      display: grid;
+      grid-template-columns: repeat({{ word_length }}, 80px);
+      grid-template-rows: repeat({{ max_attempts }}, 80px);
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+  
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <div class="grid" id="board">
+  {% for row in rows %}
+    {% for col in cols %}
+      <div class="cell" data-row="{{ row }}" data-col="{{ col }}"></div>
+    {% endfor %}
+  {% endfor %}
+</div>
+
+      <div class="controls">
+        <button id="submitGuess" class="btn">Gönder</button>
+        <button id="clearRow" class="btn">Temizle</button>
+      </div>
+      {% include 'footer.html' %}
+    </main>
+  </div>
+
+  <script>
+    const board = document.getElementById('board');
+    const wordLength = {{ word_length }};
+    const maxAttempts = {{ max_attempts }};
+    const puzzleId = {{ puzzle.id }};
+    const csrfToken = '{{ csrf_token }}';
+
+    let currentRow = 0;
+    let currentCol = 0;
+
+    document.addEventListener('keydown', e => {
+      if (currentRow >= maxAttempts) return;
+      const cell = document.querySelector(`.cell[data-row="${currentRow}"][data-col="${currentCol}"]`);
+      if (e.key.match(/^[a-zA-Z]$/) && currentCol < wordLength) {
+        cell.textContent = e.key.toLowerCase();
+        currentCol++;
+      } else if (e.key === 'Backspace' && currentCol > 0) {
+        currentCol--;
+        document.querySelector(`.cell[data-row="${currentRow}"][data-col="${currentCol}"]`).textContent = '';
+      }
+    });
+
+    document.getElementById('clearRow').onclick = () => {
+      for (let c = 0; c < wordLength; c++) {
+        document.querySelector(`.cell[data-row="${currentRow}"][data-col="${c}"]`).textContent = '';
+      }
+      currentCol = 0;
+    };
+
+    document.getElementById('submitGuess').onclick = async () => {
+      if (currentCol < wordLength) {
+        return alert(`${wordLength} حرف أدخل أولاً!`);
+      }
+      // جمع الحرف
+      const guess = [];
+      for (let c = 0; c < wordLength; c++) {
+        guess.push(document.querySelector(`.cell[data-row="${currentRow}"][data-col="${c}"]`).textContent);
+      }
+      // إرسال AJAX
+      const response = await fetch(
+        `/wordle/boardWordle/${puzzleId}/guess/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+          },
+          body: JSON.stringify({ guess: guess.join('') })
+        }
+      );
+      const data = await response.json();
+      // تلوين الخلايا حسب feedback
+      data.feedback.forEach((st, idx) => {
+        const cell = document.querySelector(`.cell[data-row="${currentRow}"][data-col="${idx}"]`);
+        cell.classList.add(st);
+      });
+      // الانتقال للصف التالي
+      currentRow++;
+      currentCol = 0;
+      // إن انتهت اللعبة، نعيد التوجيه
+      if (data.redirect) {
+        window.location.href = `/wordle/resultWordle/${puzzleId}/`;
+      }
+    };
+  </script>
+</body>
+</html>

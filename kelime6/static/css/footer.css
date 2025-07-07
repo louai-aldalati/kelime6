@@ -1,0 +1,36 @@
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.footer-links a {
+  color: #2575fc;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-links form {
+  background: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: inline !important;
+}
+
+.footer-links .signout-button {
+  background: none;
+  border: none;
+  color: #2575fc;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+.footer-links .signout-button:hover {
+  text-decoration: underline;
+}

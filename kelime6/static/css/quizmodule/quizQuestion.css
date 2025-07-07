@@ -1,0 +1,99 @@
+/* 1. Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 2. Base */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  direction: rtl;
+}
+
+/* 3. Question Container */
+.question-container {
+  background: #fff;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* 4. Header */
+.question-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.question-header h2 {
+  color: #333;
+  font-size: 1.8rem;
+}
+
+/* 5. Word & Media */
+.word {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2575fc;
+}
+.media {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.media img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.audio {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* 6. Options */
+.options {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  direction: ltr;
+}
+.options li {
+  margin-bottom: 1rem;
+}
+.options input[type="radio"] {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+.options li label {
+  display: block;
+  text-align: left;
+}
+
+/* 7. Submit Button */
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #2575fc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.btn-submit:hover {
+  background-color: #1a5dc9;
+}
+
+
+
+
+
+

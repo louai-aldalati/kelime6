@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yardım / README</title>
+  <link rel="stylesheet" href="{% static 'css/readme.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <section>
+        <h2>Genel Bakış</h2>
+        <p>Bu uygulama, “6 Tekrar Prensibi”ni kullanarak yeni kelimeleri kalıcı hâle getirmenize yardımcı olan eğlenceli ve etkileşimli bir kelime ezberleme oyunudur. Her kelimeyi farklı zaman dilimlerinde (1 gün, 1 hafta, 1 ay, 3 ay, 6 ay, 1 yıl) tekrar ederek beyninizde uzun süreli iz bırakır. Kullanıcı dostu arayüzü sayesinde teknik bilgiye gerek kalmadan; kaydolup, kelime ekleyip, hemen öğrenmeye başlayabilirsiniz.</p>
+      </section>
+      <section>
+        <h3>Kullanıcı İçin Faydalar</h3>
+        <ul>
+          <li><strong>Kolay ve Hızlı Başlangıç</strong>: Sadece birkaç tıklamayla kayıt olun, profilinizi oluşturun ve öğrenmeye başlayın.</li>
+          <li><strong>Etkili Öğrenme</strong>: Bilimsel olarak kanıtlanmış tekrar aralıklarıyla unutmayı minimuma indirin.</li>
+          <li><strong>Özelleştirilebilir Deneyim</strong>: Kelime sayısını, test zamanlamasını ve hatırlatma bildirimlerini kendi ihtiyacınıza göre ayarlayın.</li>
+          <li><strong>Anlık Geri Bildirim</strong>: Her testin ardından başarı oranınızı ve eksik kelimelerinizi görün; öğrenme sürecinizi sürekli iyileştirin.</li>
+          <li><strong>Takip ve Raporlama</strong>: Öğrenme istatistiklerinizi grafikler ve kısa özetler halinde görüntüleyin; gelişiminizi her an takip edin.</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Nasıl Kullanılır?</h3>
+        <ol>
+          <li><strong>Kayıt & Giriş</strong>: E-posta veya sosyal medya ile kolayca kayıt olun.</li>
+          <li><strong>Kelime Ekleyin</strong>: Öğrenmek istediğiniz İngilizce–Türkçe çiftlerini girin; dilerseniz örnek cümle ve sesli okunuş ekleyin.</li>
+          <li><strong>Test Modu</strong>: Günlük tekrarlarınız başlayınca basit bir arayüzde sınavlarınıza katılın.</li>
+          <li><strong>İlerleme Takibi</strong>: Oyun içi raporlardan hangi kelimelerde daha fazla pratik yapmanız gerektiğini gözlemleyin.</li>
+        </ol>
+      </section>
+      <br>
+      <p class="conclusion">Bu sayede hem motivasyonunuz yüksek kalır hem de kelimeler uzun süre hafızanızda saklanır. Kolay öğren, keyifle tekrar et!</p>
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+    </main>
+  </div>
+  
+</body>
+</html>

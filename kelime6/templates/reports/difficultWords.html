@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zor Kelimeler Raporu</title>
+  <link rel="stylesheet" href="{% static 'css/reports/difficultWords.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Zor Kelimeler Raporu</h2>
+      <div class="report-filters">
+        <label>
+          Eşi̇k Değeri̇ (Minimum Doğru Tekrar):
+          <input type="number" id="threshold" min="1" value="3">
+        </label>
+        <button class="btn" id="filterBtn">Filtrele</button>
+        <button class="btn" id="printBtn">Yazdır</button>
+      </div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Kelimeler</th>
+            <th>Doğru Tekrar Sayısı</th>
+            <th>Son İnceleme</th>
+            <th>Sonraki İnceleme</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Zor kelimeler dinamik olarak yüklenecek -->
+        </tbody>
+      </table>
+      {% include 'footer.html' %}
+    </main>
+  </div>
+  <script>
+    function loadWords() {
+      const threshold = document.getElementById('threshold').value;
+      fetch(`?threshold=${threshold}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+        .then(res => res.json())
+        .then(data => populateTable(data));
+    }
+
+    document.getElementById('filterBtn').addEventListener('click', loadWords);
+    window.addEventListener('DOMContentLoaded', loadWords);
+
+    function populateTable(data) {
+      const tbody = document.querySelector('.report-table tbody');
+      tbody.innerHTML = '';
+      data.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.word}</td>
+          <td>${item.repetition_count}</td>
+          <td>${item.last_review}</td>
+          <td>${item.next_review}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      document.getElementById('printBtn').addEventListener('click', () => {
+        window.print();
+      });
+    }
+  </script>
+</body>
+</html>

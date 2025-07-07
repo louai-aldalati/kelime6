@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelime Zinciri - Oyun</title>
+  <!-- ربط ملف CSS خارجي -->
+  <link rel="stylesheet" href="{% static 'css/wordchain/playWordchain.css' %}" />
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Kelime Zinciri - Oyun</h2>
+
+      <!-- Zincir Durumu -->
+      <div class="chain-status">
+        Mevcut Kelime: <strong id="currentWord">{{ current_word }}</strong>
+      </div>
+
+      <!-- Mesajları Göster (Hatalar) -->
+      {% if messages %}
+      <ul class="messages-list">
+        {% for msg in messages %}
+          <li class="message-item">{{ msg }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <!-- Önceki Girilen Kelimeler Listesi -->
+      <ul class="entries-list" id="entriesList">
+        {% for e in entries %}
+          <li>
+            {{ forloop.counter }}. {{ e.eng }} <small>({{ e.tur }})</small>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Giriş Formu -->
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="game_id" value="{{ game_id }}" />
+
+        <div class="input-group">
+          <p>Son harf "<strong>{{ current_word|slice:"-1:" }}</strong>" ile başlayan İngilizce kelime seçin:</p>
+          <div class="candidates-container">
+            {% for w in candidates %}
+              <button
+                type="submit"
+                name="eng_word"
+                value="{{ w.eng_word }}"
+                class="candidate-btn"
+              >
+                {{ w.eng_word }} <small>({{ w.tur_word }})</small>
+              </button>
+            {% empty %}
+              <p class="no-candidates">Kullanılabilir kelime yok.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </form>
+
+      <!-- Düğmeler Satırı: Sıfırla ve Hikaye -->
+      <div class="buttons-row">
+        <a href="?reset=1">Yeniden Başlat</a>
+        <a href="{% url 'resultWordchain' %}">Hikaye ve resim oluştur</a>
+      </div>
+
+      {% include 'footer.html' %}
+    </main>
+  </div>
+</body>
+</html>

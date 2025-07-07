@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Oturumları Raporu</title>
+  <link rel="stylesheet" href="{% static 'css/reports/quizSessions.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <h2>Quiz Oturumları Raporu</h2>
+      <div class="report-filters">
+        <label>
+          Başlangıç Tarihi:
+          <input type="date" id="startDate" value="{{ start_date }}">
+        </label>
+        <label>
+          Bitiş Tarihi:
+          <input type="date" id="endDate" value="{{ end_date }}">
+        </label>
+        <button class="btn" id="filterBtn">Filtrele</button>
+        <button class="btn" id="printBtn">Yazdır</button>
+      </div>
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>Oturum Tarihi</th>
+            <th>Toplam Soru</th>
+            <th>Doğru Sayısı</th>
+            <th>Başarı Oranı (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Quiz oturum verileri buraya yüklenecek -->
+        </tbody>
+      </table>
+      {% include 'footer.html' %}
+    </main>
+  </div>
+  <script>
+    // دالة جلب البيانات وتعبئة الجدول
+    function loadQuizSessions() {
+      const start = document.getElementById('startDate').value;
+      const end   = document.getElementById('endDate').value;
+      const url = `{% url 'quizSessions' %}?start=${start}&end=${end}`;
+
+      fetch(url, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      })
+        .then(res => res.json())
+        .then(data => populateTable(data))
+        .catch(err => console.error(err));
+    }
+
+    // عند الضغط على زر “Filtrele”
+    document.getElementById('filterBtn')
+            .addEventListener('click', loadQuizSessions);
+
+    // عند انتهاء تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', loadQuizSessions);
+
+    // دالة تعبئة الجدول بالبيانات
+    function populateTable(data) {
+      const tbody = document.querySelector('.report-table tbody');
+      tbody.innerHTML = '';
+
+      if (data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4">Kayıt bulunamadı.</td></tr>';
+        return;
+      }
+
+      data.forEach(item => {
+        const successRate = ((item.correct_count / item.total_questions) * 100).toFixed(1);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.taken_at}</td>
+          <td>${item.total_questions}</td>
+          <td>${item.correct_count}</td>
+          <td>${successRate}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      // إضافة معالج نقرة زر الطباعة
+      document.getElementById('printBtn')
+              .addEventListener('click', () => {
+        window.print();
+      });
+    }
+  </script>
+</body>
+</html>

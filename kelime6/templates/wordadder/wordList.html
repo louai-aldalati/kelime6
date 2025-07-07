@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelime Listesi</title>
+  <link rel="stylesheet" href="{% static 'css/wordadder/wordList.css' %}">
+</head>
+<body>
+  <div class="dashboard-container">
+    {# تضمين الشريط الجانبي #}
+    {% include 'sideNavbar.html' %}
+    <main class="main-content">
+      <div class="header">
+        <h2>Kelime Listesi</h2>
+        <div>
+          <a href="/dashboard/" class="btn-add" aria-label="Ana sayfaya dön">Ana Sayfaya Dön</a>
+          <a href="/wordadder/wordAdd" class="btn-add" aria-label="Yeni kelime ekle">Yeni Kelime Ekle</a>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="word-search" placeholder="Kelime ara..." aria-label="Kelime ara" />
+      </div>
+
+      <div class="table-wrapper">
+        <table aria-describedby="desc-words">
+          <caption id="desc-words" style="display:none">
+            İngilizce kelime, Türkçe çeviri, örnek cümleler ve işlemler tablosu
+          </caption>
+          <thead>
+            <tr>
+              <th>İngilizce Kelime</th>
+              <th>Türkçe Çeviri</th>
+              <th>Örnek Cümleler</th>
+              <th>İşlemler</th>
+            </tr>
+          </thead>
+          <tbody id="words-table">
+            {% for item in words %}
+            <tr>
+              <td>{{ item.eng_word }}</td>
+              <td>{{ item.tur_word }}</td>
+              <td>
+                <ul>
+                  {% for sample in item.wordsample_set.all %}
+                    <li>{{ sample.samples }}</li>
+                  {% empty %}
+                    <li><em>Örnek Cümleler Yok</em></li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td class="actions">
+                <a class="btn-details"  href="/wordadder/wordDetails/{{ item.pk }}" aria-label="Detaylar">Detaylar</a>
+                <form action="{% url 'wordDelete' item.pk %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button
+                    type="submit"
+                    class="btn-delete"
+                    aria-label="Sil"
+                    onclick="return confirm('Bu kelimeyi silmek istediğinizden emin misiniz?');"
+                  >
+                    Sil
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {# تضمين التذييل #}
+      {% include 'footer.html' %}
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('word-search').addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      document.querySelectorAll('#words-table tr').forEach(row => {
+        const eng = row.cells[0]?.textContent.toLowerCase() || '';
+        const tur = row.cells[1]?.textContent.toLowerCase() || '';
+        row.style.display = (eng.includes(filter) || tur.includes(filter)) ? '' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
