@@ -2,10 +2,12 @@ services:
   - type: web
     name: kelime6
     env: python
+    rootDir: .
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn kelime6.wsgi:application
     envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: kelime6.settings
       - key: PYTHON_VERSION
         value: 3.11
+      - key: DJANGO_SETTINGS_MODULE
+        value: kelime6.settings
+    autoDeploy: true
