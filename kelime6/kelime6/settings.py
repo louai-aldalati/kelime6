@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 import environ
+import dj_database_url
 
 
 
@@ -95,11 +96,20 @@ WSGI_APPLICATION = 'kelime6.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+#the old database
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+'''
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
 
 
