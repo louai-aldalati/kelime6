@@ -15,6 +15,8 @@ from pathlib import Path
 from django.core.exceptions import ImproperlyConfigured
 import environ
 import dj_database_url
+import cloudinary
+
 
 
 
@@ -60,6 +62,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -159,8 +163,17 @@ os.path.join(BASE_DIR,'kelime6/static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Media
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_URL = '/media/'
+
+# for media we used cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('API_KEY'),
+    'API_SECRET': env('API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 # for reset password it is an API
@@ -174,6 +187,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER    # العنوان الافتراضي لل
 
 
 # Gemini API key
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = env("GEMINI_API_KEY")
 if not GEMINI_API_KEY:
     raise ImproperlyConfigured("Missing GEMINI_API_KEY environment variable!")
